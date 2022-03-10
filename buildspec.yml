@@ -4,8 +4,7 @@ env:
   variables:
     REGISTRY: "116345098631.dkr.ecr.ap-southeast-1.amazonaws.com"
     EKS_CLUSTER_NAME: "interview-demo-1"
-    KEY_ID: "AKIARWFVVKGDU3NTA4OQ"
-    KEY_SECRET: "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"
+   
 
 phases:
   pre_build:
