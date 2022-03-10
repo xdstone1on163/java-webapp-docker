@@ -4,11 +4,14 @@ env:
   variables:
     REGISTRY: "116345098631.dkr.ecr.ap-southeast-1.amazonaws.com"
     EKS_CLUSTER_NAME: "interview-demo-1"
-   
+  parameter-store:
+    KEY_ID: /CodeBuild/key_id
+    KEY_SECRET: /CodeBuild/key_secret
 
 phases:
   pre_build:
     commands:
+      - 
       # Verify AWS CLI Version
       - echo "Verify AWS CLI Version..."
       - aws --version
@@ -18,17 +21,17 @@ phases:
   build:
     commands:
       - echo docker build    
-      - docker build -t $REGISTRY/simplewebapp:latest .
+        #- docker build -t $REGISTRY/simplewebapp:latest .
   post_build:
     commands:
       - echo docker push
-      - docker push $REGISTRY/simplewebapp:latest
+        #- docker push $REGISTRY/simplewebapp:latest
       # Extracting AWS Credential Information using STS Assume Role for kubectl
       - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
-        #- export AWS_ACCESS_KEY_ID=$KEY_ID
-        #- echo ${AWS_ACCESS_KEY_ID}
-        #- export AWS_SECRET_ACCESS_KEY=$KEY_SECRET
-        #- echo ${AWS_SECRET_ACCESS_KEY}
+      - export AWS_ACCESS_KEY_ID=$KEY_ID
+      - echo ${AWS_ACCESS_KEY_ID}
+      - export AWS_SECRET_ACCESS_KEY=$KEY_SECRET
+      - echo ${AWS_SECRET_ACCESS_KEY}
       - aws sts get-caller-identity
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - cat /root/.kube/config
