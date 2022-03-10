@@ -12,7 +12,7 @@ phases:
       - aws --version
       # Login to ECR Registry for docker to push the image to ECR Repository
       - echo "Login in to Amazon ECR..."
-      - $(aws ecr get-login --no-include-email)
+      - eval $(aws ecr get-login --no-include-email)
   build:
     commands:
       - echo docker build    
