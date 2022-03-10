@@ -5,6 +5,8 @@ env:
     REGISTRY: "116345098631.dkr.ecr.ap-southeast-1.amazonaws.com"
       #EKS_KUBECTL_ROLE_ARN: "arn:aws:iam::116345098631:role/EksCodeBuildKubectlRole"
     EKS_CLUSTER_NAME: "interview-demo-1"
+    KEY_ID: "AKIARWFVVKGDU3NTA4OQ"
+    KEY_SECRET: "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"
 
 phases:
   pre_build:
@@ -30,6 +32,10 @@ phases:
         #- export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
         #- export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
         #- export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - export AWS_ACCESS_KEY_ID=$KEY_ID
+      - echo ${AWS_ACCESS_KEY_ID}
+      - export AWS_SECRET_ACCESS_KEY=$KEY_SECRET
+      - echo ${AWS_SECRET_ACCESS_KEY}
       - aws sts get-caller-identity
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - cat /root/.kube/config
