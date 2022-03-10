@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-simplewebapp-deployment
+  labels:
+    app: eks-simplewebapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eks-simplewebapp
+  template:
+    metadata:
+      labels:
+        app: eks-simplewebapp
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+                - arm64
+      containers:
+      - name: simplewebapp
+        image: 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com/simplewebapp:latest
+        ports:
+        - name: http
+          containerPort: 8080
+        imagePullPolicy: IfNotPresent
+      nodeSelector:
+        kubernetes.io/os: linux

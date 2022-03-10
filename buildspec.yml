@@ -25,10 +25,10 @@ phases:
       - docker push $REGISTRY/simplewebapp:latest
       # Extracting AWS Credential Information using STS Assume Role for kubectl
       - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
-      - export AWS_ACCESS_KEY_ID=$KEY_ID
-      - echo ${AWS_ACCESS_KEY_ID}
-      - export AWS_SECRET_ACCESS_KEY=$KEY_SECRET
-      - echo ${AWS_SECRET_ACCESS_KEY}
+        #- export AWS_ACCESS_KEY_ID=$KEY_ID
+        #- echo ${AWS_ACCESS_KEY_ID}
+        #- export AWS_SECRET_ACCESS_KEY=$KEY_SECRET
+        #- echo ${AWS_SECRET_ACCESS_KEY}
       - aws sts get-caller-identity
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - cat /root/.kube/config
