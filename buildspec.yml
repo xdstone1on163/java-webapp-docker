@@ -10,6 +10,7 @@ phases:
       # Verify AWS CLI Version
       - echo "Verify AWS CLI Version..."
       - aws --version
+      - aws eks update-kubeconfig --name interview-demo-1
       - aws eks list-clusters
       # Login to ECR Registry for docker to push the image to ECR Repository
       - echo "Login in to Amazon ECR..."
