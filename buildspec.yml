@@ -12,7 +12,7 @@ phases:
       - aws --version
       # Login to ECR Registry for docker to push the image to ECR Repository
       - echo "Login in to Amazon ECR..."
-      - eval $(aws ecr get-login --no-include-email)
+      - eval $(aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com)
   build:
     commands:
       - echo docker build    
