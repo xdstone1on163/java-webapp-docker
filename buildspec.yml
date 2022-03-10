@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    AWSCOPY: "aws s3 cp s3://docker-ecs-simple/simplewebappdev.war simplewebapp.war"
+    REGISTRY: "116345098631.dkr.ecr.ap-southeast-1.amazonaws.com"
 
 phases:
   pre_build:
@@ -10,14 +10,16 @@ phases:
       # Verify AWS CLI Version
       - echo "Verify AWS CLI Version..."
       - aws --version
+      - aws eks list-clusters
       # Login to ECR Registry for docker to push the image to ECR Repository
       - echo "Login in to Amazon ECR..."
-      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com
+      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $REGISTRY
   build:
     commands:
       - echo docker build    
-      - docker build -t 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com/simplewebapp:latest .
+      #- docker build -t $REGISTRY/simplewebapp:latest .
   post_build:
     commands:
       - echo docker push
-      - docker push 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com/simplewebapp:latest
+      #- docker push $REGISTRY/simplewebapp:latest
+      - kubectl get svc
