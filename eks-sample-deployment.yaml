@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: eks-simplewebapp-deployment
   labels:
-    app: eks-simplewebapp
+    app: simplewebapp
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: eks-simplewebapp
+      app: simplewebapp
   template:
     metadata:
       labels:
-        app: eks-simplewebapp
+        app: simplewebapp
     spec:
       affinity:
         nodeAffinity:
@@ -31,6 +31,5 @@ spec:
         ports:
         - name: http
           containerPort: 8080
-        imagePullPolicy: IfNotPresent
       nodeSelector:
         kubernetes.io/os: linux

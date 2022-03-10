@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: eks-simplewebapp-service
   labels:
-    app: eks-simplewebapp
+    app: simplewebapp
 spec:
   selector:
-    app: eks-simplewebapp
+    app: simplewebapp
   ports:
     - protocol: TCP
       port: 8080
