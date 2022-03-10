@@ -34,4 +34,4 @@ phases:
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - cat /root/.kube/config
       - kubectl get svc
-      - kubectl apply -f eks-simplewebapp-deployment.yaml
+      - kubectl apply -f eks-sample-deployment.yaml
