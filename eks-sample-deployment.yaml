@@ -27,6 +27,7 @@ spec:
       containers:
       - name: simplewebapp
         image: 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com/simplewebapp:latest
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 8080
