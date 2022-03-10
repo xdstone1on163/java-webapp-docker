@@ -7,11 +7,17 @@ env:
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      # Verify AWS CLI Version
+      - echo "Verify AWS CLI Version..."
+      - aws --version
+      # Login to ECR Registry for docker to push the image to ECR Repository
+      - echo "Login in to Amazon ECR..."
+      - $(aws ecr get-login --no-include-email)
   build:
     commands:
       - echo docker build    
-      - docker build -t simplewebapp .
+      - docker build -t 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com/simplewebapp:latest .
   post_build:
     commands:
       - echo docker push
+      - docker push 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com/simplewebapp:latest
