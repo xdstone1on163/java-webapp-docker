@@ -1,0 +1,25 @@
+本demo是演示使用aws的codebuild,结合aws的ecr和eks，完成一个java网络服务的构建，和ecr上传，以及eks上的部署
+
+codebuild需要使用一个buildspec.xml，已经包含在了代码库里。
+
+kubectl需要使用的deployment和service的构建文件，也包含在了代码库里。
+
+k8s集群需要提前创建好，ecr的访问地址，在buildspec.xml里需要修改成实际的。
+
+k8s集群，建议使用一个IAM用户来创建，比如deveoper-demo-1，这个用户的AK，需要保存在codebuild的‘environment’配置里，使用developer-demo-1的AK，主要是为了让默认的build服务器里的aws命令行工具，可以转变环境为developer-demo-1，从而顺利的执行生成kube/config文件，并顺利执行kubectl命令。
+
+aws codebuild使用的构建服务器，会使用codebuild配置里的一个‘role’来执行命令，所以需要保证这个role具备对ecr的访问权限，这样 buildspec里来时的ecr
+登陆的操作，才可以顺利进行。
+aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 116345098631.dkr.ecr.ap-southeast-1.amazonaws.com
+
+作为Parameter，具体可见buildspec里的读取codebuild parameter的部分。
+
+这里是aws eks配置角色和用户访问时候的具体位置：configmap/aws-auth的编辑和查看命令：
+kubectl edit -n kube-system configmap/aws-auth
+
+kubectl get configmap aws-auth -o yaml -n kube-system
+
+出发codebuild流程，只需要在本地git仓库里checkin代码就可以。
+
+需要保证codebuild的配置里：1. 选中‘代码提交就触发构建的选项’ 2. 针对构建服务器，选中‘docker 构建‘支持的选项
+~                                                                                                                                              
